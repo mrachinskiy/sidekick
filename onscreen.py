@@ -19,11 +19,13 @@
 # ##### END GPL LICENSE BLOCK #####
 
 
+import itertools
 from typing import Tuple, Iterable, Iterator, Optional
 from math import tau, sin, cos
 
 import bpy
 from bpy.app.translations import pgettext_iface as _t
+import bgl
 import blf
 import gpu
 from gpu_extras.batch import batch_for_shader
@@ -89,6 +91,7 @@ def _draw():
 
     fontid = 2
     fontsize = round(prefs.ui_styles[0].widget_label.points * ui_scale)
+    shader = gpu.shader.from_builtin("2D_UNIFORM_COLOR")
 
     # Position
 
@@ -121,7 +124,6 @@ def _draw():
     color_blue = (0.0, 0.6, 1.0, 1.0)
     color_red = (1.0, 0.25, 0.25, 1.0)
     color_orange = (1.0, 0.8, 0.2, 1.0)
-    shader = gpu.shader.from_builtin("2D_UNIFORM_COLOR")
 
     # Line height
 
@@ -136,20 +138,24 @@ def _draw():
 
             if problem_type is problemlib.TYPE_ERROR:
                 color = color_red
-                icon = _circle
+                icon = _icon_error
             elif problem_type is problemlib.TYPE_WARN:
                 color = color_orange
-                icon = _triangle
+                icon = _icon_warning
             else:
                 color = color_blue
-                icon = _circle
+                icon = _icon_update
 
             y -= font_row_height
 
+            bgl.glLineWidth(1.8)
+            bgl.glEnable(bgl.GL_BLEND)
+            bgl.glEnable(bgl.GL_LINE_SMOOTH)
+
             shader.bind()
             shader.uniform_float("color", color)
-            batch_font = batch_for_shader(shader, "TRI_FAN", {"pos": icon(icon_size, x, y)})
-            batch_font.draw(shader)
+            batch = batch_for_shader(shader, "LINES", {"pos": icon(icon_size, x, y)})
+            batch.draw(shader)
             x_ofst = x + font_h
 
             blf.position(fontid, x_ofst, y, 0.0)
@@ -161,17 +167,21 @@ def _draw():
         y -= font_row_height
 
         for num, color, icon in (
-            (str(int(mod_update.state.update_available)), color_blue, _circle),
-            (str(var.Report.errors), color_red, _circle),
-            (str(var.Report.warns), color_orange, _triangle),
+            (str(int(mod_update.state.update_available)), color_blue, _icon_update),
+            (str(var.Report.errors), color_red, _icon_error),
+            (str(var.Report.warns), color_orange, _icon_warning),
         ):
             if num == "0":
                 continue
 
+            bgl.glLineWidth(1.8)
+            bgl.glEnable(bgl.GL_BLEND)
+            bgl.glEnable(bgl.GL_LINE_SMOOTH)
+
             shader.bind()
             shader.uniform_float("color", color)
-            batch_font = batch_for_shader(shader, "TRI_FAN", {"pos": icon(icon_size, x, y)})
-            batch_font.draw(shader)
+            batch = batch_for_shader(shader, "LINES", {"pos": icon(icon_size, x, y)})
+            batch.draw(shader)
             x += font_h
 
             blf.position(fontid, x, y, 0.0)
@@ -182,28 +192,102 @@ def _draw():
             font_w, _ = blf.dimensions(fontid, num)
             x += font_w + font_h
 
+    bgl.glLineWidth(1.0)
+    bgl.glDisable(bgl.GL_BLEND)
+    bgl.glDisable(bgl.GL_LINE_SMOOTH)
 
-def _circle(radius: float, x: int, y: int) -> Tuple[Tuple[float, float], ...]:
+
+# Icons
+# -------------------------------------
+
+
+def _icon_update(radius: float, x: int, y: int) -> Tuple[Tuple[float, float], ...]:
+    radius *= 1.05
     y += radius / 1.3
     angle = tau / 12
+    cos_circle = [
+        (
+            sin(i * angle) * radius + x,
+            cos(i * angle) * radius + y,
+        )
+        for i in range(10)
+    ]
 
-    return tuple(
+    radius *= 0.4
+    x, y = cos_circle[-1]
+    x += radius * 0.1
+    tri = (
+        (x - radius, y),
+        (x, y + radius * 1.7),
+        (x + radius, y),
+    )
+
+    return (*_co_pairs(cos_circle), *_co_pairs(tri))
+
+
+def _icon_error(radius: float, x: int, y: int) -> Tuple[Tuple[float, float], ...]:
+    radius *= 1.15
+    y += radius / 1.3
+    angle = tau / 12
+    cos_circle = [
         (
             sin(i * angle) * radius + x,
             cos(i * angle) * radius + y,
         )
         for i in range(12)
+    ]
+
+    radius *= 0.4
+    x_sign = (
+        (x + radius, y + radius),
+        (x - radius, y - radius),
+        (x - radius, y + radius),
+        (x + radius, y - radius),
     )
 
+    return (*_co_pairs_cyclic(cos_circle), *x_sign)
 
-def _triangle(radius: float, x: int, y: int) -> Tuple[Tuple[float, float], ...]:
+
+def _icon_warning(radius: float, x: int, y: int) -> Tuple[Tuple[float, float], ...]:
+    radius *= 1.1
     y -= radius / 4
-
-    return (
+    cos = (
         (x, y + radius * 2),
         (x - radius, y),
         (x + radius, y),
     )
+
+    y += radius / 2
+    exclamation = (
+        (x, y + radius * 0.9),
+        (x, y + radius * 0.2),
+        (x, y),
+        (x, y - radius * 0.2),
+    )
+
+    return (*_co_pairs_cyclic(cos), *exclamation)
+
+
+# Utils
+# -------------------------------------
+
+
+def _co_pairs_cyclic(a: Iterable) -> Iterator[Tuple[float, float]]:
+    b = itertools.cycle(a)
+    next(b)
+
+    for co1, co2 in zip(a, b):
+        yield co1
+        yield co2
+
+
+def _co_pairs(x: Iterable) -> Iterator[Tuple[float, float]]:
+    a, b = itertools.tee(x)
+    next(b, None)
+
+    for co1, co2 in zip(a, b):
+        yield co1
+        yield co2
 
 
 def _fmt_detailed(seq: Iterable) -> Iterator[Tuple[Optional[int], str]]:
