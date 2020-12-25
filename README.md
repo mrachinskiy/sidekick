@@ -3,7 +3,7 @@ Sidekick—Blender add-on to help fresh users with their learning experience.
 Features:
 
 * Detect common modelling and organization mistakes in the scene.
-* Provide detailed description for each mistake and suggest solution.
+* Provide detailed description and give recommendation for each mistake.
 * Individual checks can be disabled in add-on preferences.
 
 

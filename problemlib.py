@@ -49,7 +49,7 @@ ObjectScale = Problem(
     "Object Scale is non-uniform",
     (
         "Non-uniform scaling could lead to unexpected results when using certain tools and modifiers."
-        "\n\nSuggestion: use Object > Apply > Scale."
+        "\n\nRecommendation: use Object > Apply > Scale."
     ),
 )
 
@@ -59,7 +59,7 @@ ObjectEmpty = Problem(
     "Empty object",
     (
         "Mesh or curve object missing object data."
-        "\n\nSuggestion: delete empty objects."
+        "\n\nRecommendation: delete empty objects."
     ),
 )
 
@@ -73,7 +73,7 @@ ModOrder = Problem(
         "\n* Subdivision"
         "\n* Lattice"
         "\n* Curve"
-        "\n\nSuggestion: place Subdivision modifier before deform modifiers, "
+        "\n\nRecommendation: place Subdivision modifier before deform modifiers, "
         "unless you did it on purpose to achieve specific result."
     ),
 )
@@ -84,7 +84,7 @@ CurveRadius = Problem(
     "Curve Radius deformation",
     (
         "Curve Radius scales objects deformed by Curve modifier."
-        "\n\nSuggestion: disable curve Radius property, unless you are using it on purpose."
+        "\n\nRecommendation: disable curve Radius property, unless you are using it on purpose."
     ),
 )
 
@@ -94,7 +94,7 @@ CurveOrder = Problem(
     "Curve low Order",
     (
         "Low Order property makes curve shape angular."
-        "\n\nSuggestion: set Object Data > Active Spline > Order U property to 5, "
+        "\n\nRecommendation: set Object Data > Active Spline > Order U property to 5, "
         "if you need angular curve, then you better off using Bezier curves."
     ),
 )
@@ -105,7 +105,7 @@ CurveResolution = Problem(
     "Curve low Resolution",
     (
         "Low Resolution property makes deformed object look low poly regardless of its polycount."
-        "\n\nSuggestion: set Object Data > Shape > Resolution Preview U property to a greater value."
+        "\n\nRecommendation: set Object Data > Shape > Resolution Preview U property to a greater value."
     ),
 )
 
@@ -115,7 +115,7 @@ CollectionName = Problem(
     "Collection uses default name",
     (
         "Default collection names make it difficult to understand scene hierarchy for other people and yourself."
-        "\n\nSuggestion: give descriptive names to all collections."
+        "\n\nRecommendation: give descriptive names to all collections."
     ),
     False,
 )
@@ -127,8 +127,8 @@ CollectionVisibility = Problem(
     (
         "Gems from hidden collections will appear in Design Report and Gem Map, "
         "this happens when collection is hidden with Hide in Viewport (eye icon)."
-        "\n\nSuggestion: instead use Disable in Viewports (display icon) "
-        "or Exclude from View Layer (checkbox left from collection)."
+        "\n\nRecommendation: instead use Disable in Viewports (display icon) "
+        "or Exclude from View Layer (checkbox)."
     ),
     False,
 )

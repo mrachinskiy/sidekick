@@ -16,35 +16,35 @@
     "Select visible objects with detected problem": "Выделмть видимые объекты с обнаруженной проблемой",
 
     "Object Scale is non-uniform": "Неравномерный масштаб объекта",
-    "Non-uniform scaling could lead to unexpected results when using certain tools and modifiers.\n\nSuggestion: use Object > Apply > Scale.":
-      "Неравномерное масштабирование может привести к неожиданным результатам при использовании определенных инструментов и модификаторов.\n\nСовет: используйте Object > Apply > Scale.",
+    "Non-uniform scaling could lead to unexpected results when using certain tools and modifiers.\n\nRecommendation: use Object > Apply > Scale.":
+      "Неравномерное масштабирование может привести к неожиданным результатам при использовании определенных инструментов и модификаторов.\n\nРекомендация: используйте Object > Apply > Scale.",
 
     "Empty object": "Пустой объект",
-    "Mesh or curve object missing object data.\n\nSuggestion: delete empty objects.":
-      "В объекте mesh или кривой отсутсвует объектная информация\n\nСовет: удалите пустые объекты.",
+    "Mesh or curve object missing object data.\n\nRecommendation: delete empty objects.":
+      "В объекте mesh или кривой отсутсвует объектная информация\n\nРекомендация: удалите пустые объекты.",
 
     "Modifier order is incorrect": "Неверный порядок модификаторов",
-    "Generally Subdivision modifier should be placed before deform modifiers. Example:\n* Mirror\n* Subdivision\n* Lattice\n* Curve\n\nSuggestion: place Subdivision modifier before deform modifiers, unless you did it on purpose to achieve specific result.":
-      "Обычно модификатор Subdivision следует размещать перед модификаторами деформации. Пример:\n* Mirror\n* Subdivision\n* Lattice\n* Curve\n\nСовет: переместите модификатор Subdivision перед модификаторами деформации, кроме случаев когда вы сделали это специально для достижения определенного результата.",
+    "Generally Subdivision modifier should be placed before deform modifiers. Example:\n* Mirror\n* Subdivision\n* Lattice\n* Curve\n\nRecommendation: place Subdivision modifier before deform modifiers, unless you did it on purpose to achieve specific result.":
+      "Обычно модификатор Subdivision следует размещать перед модификаторами деформации. Пример:\n* Mirror\n* Subdivision\n* Lattice\n* Curve\n\nРекомендация: переместите модификатор Subdivision перед модификаторами деформации, кроме случаев когда вы сделали это специально для достижения определенного результата.",
 
     "Curve Radius deformation": "Деформация Radius кривой",
-    "Curve Radius scales objects deformed by Curve modifier.\n\nSuggestion: disable curve Radius property, unless you are using it on purpose.":
-      "Radius кривой масштабирует объекты с модификатором Curve.\n\nСовет: отключите параметр Radius кривой, в случае если вы специально его не используете.",
+    "Curve Radius scales objects deformed by Curve modifier.\n\nRecommendation: disable curve Radius property, unless you are using it on purpose.":
+      "Radius кривой масштабирует объекты с модификатором Curve.\n\nРекомендация: отключите параметр Radius кривой, в случае если вы специально его не используете.",
 
     "Curve low Order": "Значение кривой Order слишком низкое",
-    "Low Order property makes curve shape angular.\n\nSuggestion: set Object Data > Active Spline > Order U property to 5, if you need angular curve, then you better off using Bezier curves.":
-      "Низкое значение параметра Order делает форму кривой угловатой.\n\nСовет: выставите параметр Object Data > Active Spline > Order U в значение 5, если же вам нужна кривая с острыми углами, то лучше используйте кривую Bezier.",
+    "Low Order property makes curve shape angular.\n\nRecommendation: set Object Data > Active Spline > Order U property to 5, if you need angular curve, then you better off using Bezier curves.":
+      "Низкое значение параметра Order делает форму кривой угловатой.\n\nРекомендация: выставите параметр Object Data > Active Spline > Order U в значение 5, если же вам нужна кривая с острыми углами, то лучше используйте кривую Bezier.",
 
     "Curve low Resolution": "Низкая детализация кривой",
-    "Low Resolution property makes deformed object look low poly regardless of its polycount.\n\nSuggestion: set Object Data > Shape > Resolution Preview U property to a greater value.":
-      "Низкая детализация кривой придаёт низкополигональный вид деформируемому объекту, вне зависимости от количества полигонов.\n\nСовет: выставите параметр Object Data > Shape > Resolution Preview U в более высокое значение.",
+    "Low Resolution property makes deformed object look low poly regardless of its polycount.\n\nRecommendation: set Object Data > Shape > Resolution Preview U property to a greater value.":
+      "Низкая детализация кривой придаёт низкополигональный вид деформируемому объекту, вне зависимости от количества полигонов.\n\nРекомендация: выставите параметр Object Data > Shape > Resolution Preview U в более высокое значение.",
 
     "Collection uses default name": "Коллекция использует имя по умолчанию",
-    "Default collection names make it difficult to understand scene hierarchy for other people and yourself.\n\nSuggestion: give descriptive names to all collections.":
-      "Стандартные имена коллекций затрудняют понимание иерархии сцены.\n\nСовет: датйте выразительные имена всем коллекциям.",
+    "Default collection names make it difficult to understand scene hierarchy for other people and yourself.\n\nRecommendation: give descriptive names to all collections.":
+      "Стандартные имена коллекций затрудняют понимание иерархии сцены.\n\nРекомендация: датйте выразительные имена всем коллекциям.",
 
     "Collection visibility": "Видимость коллекции",
-    "Gems from hidden collections will appear in Design Report and Gem Map, this happens when collection is hidden with Hide in Viewport (eye icon).\n\nSuggestion: instead use Disable in Viewports (display icon) or Exclude from View Layer (checkbox left from collection).":
-      "Камни из скрытых коллекций будут появляться в Design Report и Gem Map, это происходит, когда коллекция скрыта с помощью Hide in Viewport (иконка глаза).\n\nСовет: для скрытия коллекций используйте Disable in Viewports (иконка дисплея) или Exclude from View Layer (чекбокс слева от коллекции)."
+    "Gems from hidden collections will appear in Design Report and Gem Map, this happens when collection is hidden with Hide in Viewport (eye icon).\n\nRecommendation: instead use Disable in Viewports (display icon) or Exclude from View Layer (checkbox).":
+      "Камни из скрытых коллекций будут появляться в Design Report и Gem Map, это происходит, когда коллекция скрыта с помощью Hide in Viewport (иконка глаза).\n\nРекомендация: для скрытия коллекций используйте Disable in Viewports (иконка дисплея) или Exclude from View Layer (чекбокс)."
   }
 }
