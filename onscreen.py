@@ -22,6 +22,7 @@
 import itertools
 from typing import Tuple, Iterable, Iterator, Optional
 from math import tau, sin, cos
+from functools import lru_cache
 
 import bpy
 from bpy.app.translations import pgettext_iface as _t
@@ -154,7 +155,7 @@ def _draw():
 
             shader.bind()
             shader.uniform_float("color", color)
-            batch = batch_for_shader(shader, "LINES", {"pos": icon(icon_size, x, y)})
+            batch = batch_for_shader(shader, "LINES", {"pos": [(co_x + x, co_y + y) for co_x, co_y in icon(icon_size)]})
             batch.draw(shader)
             x_ofst = x + font_h
 
@@ -180,7 +181,7 @@ def _draw():
 
             shader.bind()
             shader.uniform_float("color", color)
-            batch = batch_for_shader(shader, "LINES", {"pos": icon(icon_size, x, y)})
+            batch = batch_for_shader(shader, "LINES", {"pos": [(co_x + x, co_y + y) for co_x, co_y in icon(icon_size)]})
             batch.draw(shader)
             x += font_h
 
@@ -201,71 +202,80 @@ def _draw():
 # -------------------------------------
 
 
-def _icon_update(radius: float, x: int, y: int) -> Tuple[Tuple[float, float], ...]:
+@lru_cache(maxsize=1)
+def _icon_update(radius: float) -> Tuple[Tuple[float, float], ...]:
     radius *= 1.05
-    y += radius / 1.3
+    y = radius / 1.3
     angle = tau / 12
-    cos_circle = [
+
+    circle = [
         (
-            sin(i * angle) * radius + x,
+            sin(i * angle) * radius,
             cos(i * angle) * radius + y,
         )
         for i in range(10)
     ]
 
     radius *= 0.4
-    x, y = cos_circle[-1]
+    x, y = circle[-1]
     x += radius * 0.1
-    tri = (
+
+    arrow = (
         (x - radius, y),
         (x, y + radius * 1.7),
         (x + radius, y),
     )
 
-    return (*_co_pairs(cos_circle), *_co_pairs(tri))
+    return (*_co_pairs(circle), *_co_pairs(arrow))
 
 
-def _icon_error(radius: float, x: int, y: int) -> Tuple[Tuple[float, float], ...]:
+@lru_cache(maxsize=1)
+def _icon_error(radius: float) -> Tuple[Tuple[float, float], ...]:
     radius *= 1.15
-    y += radius / 1.3
+    y = radius / 1.3
     angle = tau / 12
-    cos_circle = [
+
+    circle = [
         (
-            sin(i * angle) * radius + x,
+            sin(i * angle) * radius,
             cos(i * angle) * radius + y,
         )
         for i in range(12)
     ]
 
     radius *= 0.4
+
     x_sign = (
-        (x + radius, y + radius),
-        (x - radius, y - radius),
-        (x - radius, y + radius),
-        (x + radius, y - radius),
+        ( radius, y + radius),
+        (-radius, y - radius),
+        (-radius, y + radius),
+        ( radius, y - radius),
     )
 
-    return (*_co_pairs_cyclic(cos_circle), *x_sign)
+    return (*_co_pairs_cyclic(circle), *x_sign)
 
 
-def _icon_warning(radius: float, x: int, y: int) -> Tuple[Tuple[float, float], ...]:
+@lru_cache(maxsize=1)
+def _icon_warning(radius: float) -> Tuple[Tuple[float, float], ...]:
     radius *= 1.1
-    y -= radius / 4
-    cos = (
-        (x, y + radius * 2),
-        (x - radius, y),
-        (x + radius, y),
+    y = -radius / 4
+
+    tri = (
+        (0.0, y + radius * 2),
+        (0.0 - radius, y),
+        (0.0 + radius, y),
     )
 
-    y += radius / 2
+    y = -y
+
     exclamation = (
-        (x, y + radius * 0.9),
-        (x, y + radius * 0.2),
-        (x, y),
-        (x, y - radius * 0.2),
+        (0.0, y + radius * 0.9),
+        (0.0, y + radius * 0.2),
+        (0.0, y),
+        (0.0, y - radius * 0.2),
     )
 
-    return (*_co_pairs_cyclic(cos), *exclamation)
+    return (*_co_pairs_cyclic(tri), *exclamation)
 
 
 # Utils
