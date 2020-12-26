@@ -25,7 +25,7 @@ bl_info = {
     "version": (1, 0, 0),
     "blender": (2, 90, 0),
     "location": "3D View > Header > Problems",
-    "description": "Detect common mistakes and give recommendations.",
+    "description": "Detect common modeling mistakes in the scene.",
     "doc_url": "https://github.com/mrachinskiy/sidekick#readme",
     "tracker_url": "https://github.com/mrachinskiy/sidekick/issues",
     "category": "3D View",

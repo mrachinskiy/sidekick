@@ -1,9 +1,9 @@
-Sidekick—Blender add-on to help fresh users with their learning experience.
+Sidekick is a scene analysis add-on for Blender, to help fresh users with easier learning experience.
 
 Features:
 
-* Detect common modelling and organization mistakes in the scene.
-* Provide detailed description and give recommendation for each mistake.
+* Detect common modeling mistakes in the scene.
+* Provide detailed mistake description and give recommendations.
 * Individual checks can be disabled in add-on preferences.
 
 
