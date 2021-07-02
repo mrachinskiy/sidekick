@@ -1,0 +1,157 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Sidekick 1.0\n"
+"POT-Creation-Date: 2020-12-25\n"
+"PO-Revision-Date: 2020-12-25\n"
+"Last-Translator: Mikhail Rachinskiy\n"
+"Language-Team: Mikhail Rachinskiy\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru_RU\n"
+
+msgid "Problems"
+msgstr "Проблемы"
+
+msgid "Overlay Style"
+msgstr "Стиль Наложения"
+
+msgid "Detailed"
+msgstr "Детализированный"
+
+msgid "Compact"
+msgstr "Компактный"
+
+msgid "Show full list of problems"
+msgstr "Показать полный список проблем"
+
+msgid "Show only number of problems"
+msgstr "Показать только количество проблем"
+
+msgid "Non-uniform Scale"
+msgstr "Неравномерный масштаб"
+
+msgid "Empty Object"
+msgstr "Пустой объект"
+
+msgid "Low Order"
+msgstr "Низкий Order"
+
+msgid "Low Resolution"
+msgstr "Низкая детализация"
+
+msgid "Radius Deformation"
+msgstr "Деформация Radius"
+
+msgid "Wrong Order"
+msgstr "Неверный порядок"
+
+msgid "Show problem description"
+msgstr "Показать описание проблемы"
+
+msgid "Select visible objects with detected problem"
+msgstr "Выделмть видимые объекты с обнаруженной проблемой"
+
+msgid "Object Scale is non-uniform"
+msgstr "Неравномерный масштаб объекта"
+
+msgid ""
+"Non-uniform scaling could lead to unexpected results when using certain tools and modifiers.\n"
+"\n"
+"Recommendation: use Object > Apply > Scale."
+msgstr ""
+"Неравномерное масштабирование может привести к неожиданным результатам при использовании определенных инструментов и модификаторов.\n"
+"\n"
+"Рекомендация: используйте Object > Apply > Scale."
+
+msgid "Empty object"
+msgstr "Пустой объект"
+
+msgid ""
+"Mesh or curve object missing object data.\n"
+"\n"
+"Recommendation: delete empty objects."
+msgstr ""
+"В объекте mesh или кривой отсутсвует объектная информация\n"
+"\n"
+"Рекомендация: удалите пустые объекты."
+
+msgid "Modifier order is incorrect"
+msgstr "Неверный порядок модификаторов"
+
+msgid ""
+"Generally Subdivision modifier should be placed before deform modifiers. Example:\n"
+"* Mirror\n"
+"* Subdivision\n"
+"* Lattice\n"
+"* Curve\n"
+"\n"
+"Recommendation: place Subdivision modifier before deform modifiers, unless you did it on purpose to achieve specific result."
+msgstr ""
+"Обычно модификатор Subdivision следует размещать перед модификаторами деформации. Пример:\n"
+"* Mirror\n"
+"* Subdivision\n"
+"* Lattice\n"
+"* Curve\n"
+"\n"
+"Рекомендация: переместите модификатор Subdivision перед модификаторами деформации, кроме случаев когда вы сделали это специально для достижения определенного результата."
+
+msgid "Curve Radius deformation"
+msgstr "Деформация Radius кривой"
+
+msgid ""
+"Curve Radius scales objects deformed by Curve modifier.\n"
+"\n"
+"Recommendation: disable curve Radius property, unless you are using it on purpose."
+msgstr ""
+"Radius кривой масштабирует объекты с модификатором Curve.\n"
+"\n"
+"Рекомендация: отключите параметр Radius кривой, в случае если вы специально его не используете."
+
+msgid "Curve low Order"
+msgstr "Значение кривой Order слишком низкое"
+
+msgid ""
+"Low Order property makes curve shape angular.\n"
+"\n"
+"Recommendation: set Object Data > Active Spline > Order U property to 5, if you need angular curve, then you better off using Bezier curves."
+msgstr ""
+"Низкое значение параметра Order делает форму кривой угловатой.\n"
+"\n"
+"Рекомендация: выставите параметр Object Data > Active Spline > Order U в значение 5, если же вам нужна кривая с острыми углами, то лучше используйте кривую Bezier."
+
+msgid "Curve low Resolution"
+msgstr "Низкая детализация кривой"
+
+msgid ""
+"Low Resolution property makes deformed object look low poly regardless of its polycount.\n"
+"\n"
+"Recommendation: set Object Data > Shape > Resolution Preview U property to a greater value."
+msgstr ""
+"Низкая детализация кривой придаёт низкополигональный вид деформируемому объекту, вне зависимости от количества полигонов.\n"
+"\n"
+"Рекомендация: выставите параметр Object Data > Shape > Resolution Preview U в более высокое значение."
+
+msgid "Collection uses default name"
+msgstr "Коллекция использует имя по умолчанию"
+
+msgid ""
+"Default collection names make it difficult to understand scene hierarchy for other people and yourself.\n"
+"\n"
+"Recommendation: give descriptive names to all collections."
+msgstr ""
+"Стандартные имена коллекций затрудняют понимание иерархии сцены.\n"
+"\n"
+"Рекомендация: датйте выразительные имена всем коллекциям."
+
+msgid "Collection visibility"
+msgstr "Видимость коллекции"
+
+msgid ""
+"Gems from hidden collections will appear in Design Report and Gem Map, this happens when collection is hidden with Hide in Viewport (eye icon).\n"
+"\n"
+"Recommendation: instead use Disable in Viewports (display icon) or Exclude from View Layer (checkbox)."
+msgstr ""
+"Камни из скрытых коллекций будут появляться в Design Report и Gem Map, это происходит, когда коллекция скрыта с помощью Hide in Viewport (иконка глаза).\n"
+"\n"
+"Рекомендация: для скрытия коллекций используйте Disable in Viewports (иконка дисплея) или Exclude from View Layer (чекбокс)."
