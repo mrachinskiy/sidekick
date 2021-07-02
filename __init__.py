@@ -117,7 +117,6 @@ def register():
     mod_update.init(
         addon_version=bl_info["version"],
         repo_url="mrachinskiy/sidekick",
-        translation_dict=localization.DICTIONARY,
     )
 
     # Translations
