@@ -67,7 +67,7 @@ class WM_OT_show_description(Operator):
         problem = problemlib.coll[self.code]
 
         box = layout.box()
-        box.label(text=problem.title, icon="CANCEL" if problem.type else "ERROR")
+        box.label(text=problem.title, icon="CANCEL" if problem.type is problemlib.TYPE_ERROR else "ERROR")
 
         for paragraph in _(problem.desc).split("\n\n"):
             col = box.column(align=True)
