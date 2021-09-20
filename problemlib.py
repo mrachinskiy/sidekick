@@ -46,10 +46,10 @@ class Problem(NamedTuple):
 ObjectScale = Problem(
     ID_OB_SCALE,
     TYPE_ERROR,
-    "Object Scale is non-uniform",
+    "Scaled objects",
     (
-        "Non-uniform scaling could lead to unexpected results when using certain tools and modifiers."
-        "\n\nRecommendation: use Object > Apply > Scale."
+        "Object scaling could lead to unexpected results when using certain tools and modifiers."
+        "\n\nRecommendation: if you did not set object scale on purpose use Object > Apply > Scale."
     ),
 )
 

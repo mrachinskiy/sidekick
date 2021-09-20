@@ -35,6 +35,10 @@ def _collection_walk(coll: LayerCollection) -> Iterator[LayerCollection]:
             yield from _collection_walk(subcoll)
 
 
+def _curve_bevel(curve: Curve) -> bool:
+    return curve.bevel_depth or curve.bevel_object is not None or curve.extrude
+
+
 class Data:
     __slots__ = ("problems", "obs", "errors", "warns")
 
@@ -78,7 +82,10 @@ class Data:
 
             else:
 
-                if ob.type == "CURVE":
+                if ob.type in {"CURVE", "FONT"}:
+
+                    if _curve_bevel(ob.data) and Check.ob_scale(ob.scale):
+                        ob_problems.add(problemlib.ID_OB_SCALE)
 
                     if ob in deformer_curves:
                         if Check.curve_radius(ob.data):
@@ -91,7 +98,7 @@ class Data:
 
                 elif ob.type == "MESH":
 
-                    if Check.ob_scale(ob.scale):
+                    if "gem" not in ob and Check.ob_scale(ob.scale):
                         ob_problems.add(problemlib.ID_OB_SCALE)
 
                     if ob.modifiers and Check.mod_order(ob.modifiers):
@@ -155,7 +162,7 @@ class Detect:
 
     @staticmethod
     def _ob_scale(scale: Vector) -> bool:
-        return not (scale.x == scale.y == scale.z)
+        return scale.length_squared != 3.0
 
     @staticmethod
     def _ob_empty(ob: Object) -> bool:
