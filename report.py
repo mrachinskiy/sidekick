@@ -35,8 +35,8 @@ def _collection_walk(coll: LayerCollection) -> Iterator[LayerCollection]:
             yield from _collection_walk(subcoll)
 
 
-def _curve_bevel(curve: Curve) -> bool:
-    return curve.bevel_depth or curve.bevel_object is not None or curve.extrude
+def _is_curve_bevel(curve: Curve) -> bool:
+    return curve.bevel_depth or curve.extrude or curve.bevel_object is not None
 
 
 class Data:
@@ -84,7 +84,7 @@ class Data:
 
                 if ob.type in {"CURVE", "FONT"}:
 
-                    if _curve_bevel(ob.data) and Check.ob_scale(ob.scale):
+                    if _is_curve_bevel(ob.data) and Check.ob_scale(ob.scale):
                         ob_problems.add(problemlib.ID_OB_SCALE)
 
                     if ob in deformer_curves:
@@ -191,7 +191,7 @@ class Detect:
 
     @staticmethod
     def _curve_resolution(curve: Curve) -> bool:
-        return curve.resolution_u < 64
+        return curve.splines[0].type != "POLY" and curve.resolution_u < 64
 
     @staticmethod
     def _curve_radius(curve: Curve) -> bool:
