@@ -40,7 +40,7 @@ def _is_curve_bevel(curve: Curve) -> bool:
 
 
 def _is_gem_related(ob: Object) -> bool:
-    return "gem" in ob or "gem" in ob.parent
+    return "gem" in ob or (ob.parent is not None and "gem" in ob.parent)
 
 
 class Data:
