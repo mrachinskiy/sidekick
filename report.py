@@ -39,6 +39,10 @@ def _is_curve_bevel(curve: Curve) -> bool:
     return curve.bevel_depth or curve.extrude or curve.bevel_object is not None
 
 
+def _is_gem_related(ob: Object) -> bool:
+    return "gem" in ob or "gem" in ob.parent
+
+
 class Data:
     __slots__ = ("problems", "obs", "errors", "warns")
 
@@ -98,7 +102,7 @@ class Data:
 
                 elif ob.type == "MESH":
 
-                    if "gem" not in ob and Check.ob_scale(ob.scale):
+                    if not _is_gem_related(ob) and Check.ob_scale(ob.scale):
                         ob_problems.add(problemlib.ID_OB_SCALE)
 
                     if ob.modifiers and Check.mod_order(ob.modifiers):
