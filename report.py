@@ -173,17 +173,20 @@ class Detect:
 
     @staticmethod
     def _ob_empty(ob: Object) -> bool:
-        if ob.type == "CURVE":
-            return not ob.data.splines
+        methods = {
+            "CURVE": lambda ob: not ob.data.splines,
+            "MESH": lambda ob: not ob.data.vertices,
+        }
 
-        if ob.type == "MESH":
-            if not ob.data.vertices:
-
+        if is_empty := methods.get(ob.type):
+            if is_empty(ob):
                 if ob.modifiers:
                     for mod in ob.modifiers:
-                        if mod.type == "BOOLEAN" and mod.operation == "UNION" and mod.object:
+                        if (
+                            mod.type == "NODES" or
+                            (mod.type == "BOOLEAN" and mod.operation == "UNION" and mod.object)
+                        ):
                             return False
-
                 return True
 
         return False
