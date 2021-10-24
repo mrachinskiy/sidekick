@@ -160,6 +160,9 @@ class Detect:
 
             setattr(self, prop, func)
 
+        if len(bpy.data.collections) < 2:
+            setattr(self, "collection_name", self.dummy)
+
     @staticmethod
     def dummy(x=None):
         return False
