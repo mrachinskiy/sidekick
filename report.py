@@ -178,16 +178,15 @@ class Detect:
             "MESH": lambda ob: not ob.data.vertices,
         }
 
-        if is_empty := methods.get(ob.type):
-            if is_empty(ob):
-                if ob.modifiers:
-                    for mod in ob.modifiers:
-                        if (
-                            mod.type == "NODES" or
-                            (mod.type == "BOOLEAN" and mod.operation == "UNION" and mod.object)
-                        ):
-                            return False
-                return True
+        if (is_empty := methods.get(ob.type)) and is_empty(ob):
+            if ob.modifiers:
+                for mod in ob.modifiers:
+                    if (
+                        mod.type == "NODES" or
+                        (mod.type == "BOOLEAN" and mod.operation == "UNION" and mod.object)
+                    ):
+                        return False
+            return True
 
         return False
 
