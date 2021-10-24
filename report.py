@@ -169,7 +169,7 @@ class Detect:
 
     @staticmethod
     def _ob_scale(scale: Vector) -> bool:
-        return scale.length_squared != 3.0
+        return not (2.999999 < scale.length_squared < 3.000001)
 
     @staticmethod
     def _ob_empty(ob: Object) -> bool:
