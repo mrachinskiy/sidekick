@@ -169,7 +169,7 @@ class Detect:
 
     @staticmethod
     def _ob_scale(scale: Vector) -> bool:
-        return abs(scale.length_squared - 3.0) > 0.000001
+        return abs(scale.length_squared - 3.0) > 1e-6
 
     @staticmethod
     def _ob_empty(ob: Object) -> bool:
