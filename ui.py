@@ -61,6 +61,11 @@ class VIEW3D_PT_sidekick_problems(Panel):
             layout.label(text="Update")
             mod_update.sidebar_ui(layout)
 
+        row = layout.row()
+        row.use_property_split = True
+        row.use_property_decorate = False
+        row.prop(context.scene.sidekick, "exceptions")
+
         layout.label(text="Problems")
 
         if not var.Report.problems:

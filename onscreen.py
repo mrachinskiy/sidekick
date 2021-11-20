@@ -38,17 +38,16 @@ _handler = None
 
 
 def _refresh() -> float:
-    is_refreshed = False
+    if bpy.context.window_manager.sidekick.show_problems:
 
-    for window in bpy.context.window_manager.windows:
-        for area in window.screen.areas:
-            if area.type == "VIEW_3D" and area.spaces.active.overlay.show_overlays:
-                if not is_refreshed:
-                    var.Report.get()
-                    is_refreshed = True
-                area.tag_redraw()
+        var.Report.get()
 
-    ui.upd_problems_popover_width()
+        for window in bpy.context.window_manager.windows:
+            for area in window.screen.areas:
+                if area.type == "VIEW_3D" and area.spaces.active.overlay.show_overlays:
+                    area.tag_redraw()
+
+        ui.upd_problems_popover_width()
 
     return 5.0
 
@@ -71,19 +70,11 @@ def handler_del():
         _handler = None
 
 
-def handler_toggle(self, context):
-    if context.area.type == "VIEW_3D":
-        if self.show_problems:
-            handler_add()
-        else:
-            handler_del()
-
-
 def _draw():
     context = bpy.context
     overlay = context.space_data.overlay
 
-    if not overlay.show_overlays:
+    if not var.Report.problems or not context.window_manager.sidekick.show_problems or not overlay.show_overlays:
         return
 
     prefs = context.preferences

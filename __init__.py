@@ -55,6 +55,7 @@ else:
 classes = (
     preferences.Preferences,
     preferences.WmProperties,
+    preferences.SceneProperties,
     ui.VIEW3D_PT_sidekick_problems,
     operators.OBJECT_OT_select,
     operators.WM_OT_show_description,
@@ -68,6 +69,7 @@ def register():
         bpy.utils.register_class(cls)
 
     bpy.types.WindowManager.sidekick = PointerProperty(type=preferences.WmProperties)
+    bpy.types.Scene.sidekick = PointerProperty(type=preferences.SceneProperties)
 
     # Overlays option
     # ---------------------------
@@ -98,6 +100,7 @@ def unregister():
         bpy.utils.unregister_class(cls)
 
     del bpy.types.WindowManager.sidekick
+    del bpy.types.Scene.sidekick
 
     # Overlays option
     # ---------------------------

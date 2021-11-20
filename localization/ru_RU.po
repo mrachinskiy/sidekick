@@ -155,3 +155,9 @@ msgstr ""
 "Камни из скрытых коллекций будут появляться в Design Report и Gem Map, это происходит, когда коллекция скрыта с помощью Hide in Viewport (иконка глаза).\n"
 "\n"
 "Рекомендация: для скрытия коллекций используйте Disable in Viewports (иконка дисплея) или Exclude from View Layer (чекбокс)."
+
+msgid "Exceptions"
+msgstr "Исключения"
+
+msgid "Collection of objects excluded from scene inspection"
+msgstr "Коллекция объектов, исключённых из проверки сцены"

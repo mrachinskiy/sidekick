@@ -19,10 +19,17 @@
 # ##### END GPL LICENSE BLOCK #####
 
 
-from bpy.types import PropertyGroup, AddonPreferences
-from bpy.props import BoolProperty, EnumProperty
+from bpy.types import PropertyGroup, AddonPreferences, Collection
+from bpy.props import BoolProperty, EnumProperty, PointerProperty
 
-from . import onscreen, ui, mod_update
+from . import var, ui, mod_update
+
+
+def upd_report(self, context):
+    var.Report.cleanup()
+
+    if self.show_problems:
+        var.Report.get()
 
 
 # Add-on preferences
@@ -99,5 +106,17 @@ class WmProperties(PropertyGroup):
         name="Problems",
         description="Show scene problems",
         default=True,
-        update=onscreen.handler_toggle,
+        update=upd_report,
+    )
+
+
+# Scene properties
+# ------------------------------------------
+
+
+class SceneProperties(PropertyGroup):
+    exceptions: PointerProperty(
+        type=Collection,
+        name="Exceptions",
+        description="Collection of objects excluded from scene inspection",
     )

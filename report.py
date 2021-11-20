@@ -60,13 +60,14 @@ class Data:
 
     def get(self) -> None:
         self.cleanup()
+        scene = bpy.context.scene
 
         # Prepass
         # ----------------------------
 
         deformer_curves = set()
 
-        for ob in bpy.context.scene.objects:
+        for ob in scene.objects:
             for mod in ob.modifiers:
                 if mod.type == "CURVE" and mod.object:
                     deformer_curves.add(mod.object)
@@ -74,18 +75,20 @@ class Data:
         # Main pass
         # ----------------------------
 
+        exceptions = set(scene.sidekick.exceptions.objects) if scene.sidekick.exceptions is not None else set()
         detected_problems = set()
         Check = Detect()
 
-        for ob in bpy.context.scene.objects:
+        for ob in scene.objects:
+
+            if ob in exceptions:
+                continue
 
             ob_problems = set()
 
             if Check.ob_empty(ob):
                 ob_problems.add(problemlib.ID_OB_EMPTY)
-
             else:
-
                 if ob.type in {"CURVE", "FONT"}:
 
                     if _is_curve_bevel(ob.data) and Check.ob_scale(ob.scale):
