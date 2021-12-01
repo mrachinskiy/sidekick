@@ -161,3 +161,6 @@ msgstr "Исключения"
 
 msgid "Collection of objects excluded from scene inspection"
 msgstr "Коллекция объектов, исключённых из проверки сцены"
+
+msgid "Can't select hidden objects"
+msgstr "Невозможно выделить скрытые объекты"
