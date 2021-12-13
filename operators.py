@@ -38,19 +38,20 @@ class OBJECT_OT_select(Operator):
     def execute(self, context):
         ob_get = bpy.data.objects.get
         obs = set(ob_get(ob_name) for ob_name, problems in var.Report.obs if self.code in problems)
-        is_hidden = False
+        selection_failed = False
 
         for ob in context.scene.objects:
             is_problem = ob in obs
             ob.select_set(is_problem)
-            if is_problem and not ob.visible_get():
-                is_hidden = True
+
+            if is_problem and not (ob.visible_get() and ob.select_get()):
+                selection_failed = True
 
         if context.selected_objects and not context.view_layer.objects.active.select_get():
             context.view_layer.objects.active = context.selected_objects[0]
 
-        if is_hidden:
-            self.report({"ERROR"}, "Can't select hidden objects")
+        if selection_failed:
+            self.report({"ERROR"}, "Can't select hidden or unselectable objects")
 
         return {"FINISHED"}
 
