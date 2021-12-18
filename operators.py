@@ -137,6 +137,20 @@ class SCENE_OT_test(Operator):
         ob_mesh_empty.name = "Empty Mesh"
         ob_mesh_empty.data.clear_geometry()
 
+        # Cyclic dependency
+        bpy.ops.mesh.primitive_plane_add(size=1.0, location=(0.0, 0.0, 1.5))
+        ob_a = context.object
+        ob_a.name = "Cyclic Dependency Project"
+
+        bpy.ops.mesh.primitive_cube_add()
+        ob_b = context.object
+        ob_b.name = "Cyclic Dependency Boolean"
+
+        ob_a.modifiers.new("Project", "SHRINKWRAP").target = ob_b
+        ob_a.modifiers.new("Thick", "SOLIDIFY").offset = 0.0
+
+        ob_b.modifiers.new("Bool", "BOOLEAN").object = ob_a
+
         return {"FINISHED"}
 
     def invoke(self, context, event):
