@@ -128,6 +128,7 @@ def prefs_ui(self, context):
 
         col = box.column(heading="Modifiers")
         col.prop(self, "problem_mod_order")
+        col.prop(self, "problem_cyclic_dep")
 
         col = box.column(heading="Scene")
         col.prop(self, "problem_collection_name")

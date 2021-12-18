@@ -164,3 +164,15 @@ msgstr "Коллекция объектов, исключённых из про�
 
 msgid "Can't select hidden or unselectable objects"
 msgstr "Невозможно выделить скрытые или невыделяемые объекты"
+
+msgid "Cyclic Dependency"
+msgstr "Циклическая зависимость"
+
+msgid ""
+"Using the same object as a target for Shrinkwrap and Boolean modifiers creates cyclic dependency.\n"
+"\n"
+"Recommendation: use a duplicate object without Boolean modifier as a target in Shrinkwrap modifier."
+msgstr ""
+"Использование одного объекта в качестве цели для модификаторов Shrinkwrap и Boolean создаёт циклическую зависимость.\n"
+"\n"
+"Рекомендация: используйте дубликат объекта без модификатора Boolean как цель для проецирования в Shrinkwrap."

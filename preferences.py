@@ -77,6 +77,10 @@ class Preferences(mod_update.Preferences, AddonPreferences):
         name="Wrong Order",
         default=True,
     )
+    problem_cyclic_dep: BoolProperty(
+        name="Cyclic Dependency",
+        default=True,
+    )
     problem_collection_name: BoolProperty(
         name="Collection Name",
         default=True,

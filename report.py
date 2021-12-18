@@ -108,8 +108,11 @@ class Data:
                     if not _is_gem_related(ob) and Check.ob_scale(ob.scale):
                         ob_problems.add(problemlib.ID_OB_SCALE)
 
-                    if ob.modifiers and Check.mod_order(ob.modifiers):
-                        ob_problems.add(problemlib.ID_MOD_ORDER)
+                    if ob.modifiers:
+                        if Check.mod_order(ob.modifiers):
+                            ob_problems.add(problemlib.ID_MOD_ORDER)
+                        if Check.cyclic_dep(ob):
+                            ob_problems.add(problemlib.ID_CYCLIC_DEP)
 
             if ob_problems:
                 self.obs.append((ob.name, ob_problems))
@@ -149,6 +152,7 @@ class Detect:
         "mod_order",
         "collection_name",
         "collection_visibility",
+        "cyclic_dep",
     )
 
     def __init__(self) -> None:
@@ -237,4 +241,21 @@ class Detect:
             for ob in coll.collection.all_objects:
                 if "gem" in ob:
                     return True
+        return False
+
+    @staticmethod
+    def _cyclic_dep(ob: Object) -> bool:
+        for mod in ob.modifiers:
+            if mod.type == "SHRINKWRAP" and mod.target:
+                for tmod in mod.target.modifiers:
+                    if tmod.type == "BOOLEAN":
+                        return (
+                            tmod.object == ob or
+                            ob in {
+                                mod.object for mod in tmod.object.modifiers
+                                if mod.type == "BOOLEAN"
+                            }
+                        )
+                break
+
         return False

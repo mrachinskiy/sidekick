@@ -33,6 +33,7 @@ ID_CURVE_ORDER = 5
 ID_CURVE_RESOLUTION = 6
 ID_COLLECTION_NAME = 7
 ID_COLLECTION_VISIBILITY = 8
+ID_CYCLIC_DEP = 9
 
 
 class Problem(NamedTuple):
@@ -133,6 +134,16 @@ CollectionVisibility = Problem(
     False,
 )
 
+CyclicDep = Problem(
+    ID_CYCLIC_DEP,
+    TYPE_ERROR,
+    "Cyclic Dependency",
+    (
+        "Using the same object as a target for Shrinkwrap and Boolean modifiers creates cyclic dependency."
+        "\n\nRecommendation: use a duplicate object without Boolean modifier as a target in Shrinkwrap modifier."
+    ),
+)
+
 
 coll = {
     ObjectScale.code: ObjectScale,
@@ -143,4 +154,5 @@ coll = {
     CurveResolution.code: CurveResolution,
     CollectionName.code: CollectionName,
     CollectionVisibility.code: CollectionVisibility,
+    CyclicDep.code: CyclicDep,
 }
