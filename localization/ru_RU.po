@@ -13,6 +13,9 @@ msgstr ""
 msgid "Problems"
 msgstr "Проблемы"
 
+msgid "Ignored"
+msgstr "Проигнорированные"
+
 msgid "Overlay Style"
 msgstr "Стиль Наложения"
 
@@ -28,32 +31,24 @@ msgstr "Показать полный список проблем"
 msgid "Show only number of problems"
 msgstr "Показать только количество проблем"
 
-msgid "Non-uniform Scale"
-msgstr "Неравномерный масштаб"
-
-msgid "Empty Object"
-msgstr "Пустой объект"
-
-msgid "Low Order"
-msgstr "Низкий Order"
-
-msgid "Low Resolution"
-msgstr "Низкая детализация"
-
-msgid "Radius Deformation"
-msgstr "Деформация Radius"
-
-msgid "Wrong Order"
-msgstr "Неверный порядок"
-
 msgid "Show problem description"
 msgstr "Показать описание проблемы"
 
 msgid "Select visible objects with detected problem"
 msgstr "Выделмть видимые объекты с обнаруженной проблемой"
 
-msgid "Scaled objects"
-msgstr "Масштабированные объекты"
+msgid "Can't select hidden or unselectable objects"
+msgstr "Невозможно выделить скрытые или невыделяемые объекты"
+
+msgid "Specify problems to ignore for selected objects"
+msgstr "Укажите игнорируемые проблемы для выделенных объектов"
+
+msgctxt "Operator"
+msgid "Sidekick Ignore"
+msgstr "Sidekick игнорировать"
+
+msgid "Scaled object"
+msgstr "Масштабированный объект"
 
 msgid ""
 "Object scaling could lead to unexpected results when using certain tools and modifiers.\n"
@@ -156,16 +151,7 @@ msgstr ""
 "\n"
 "Рекомендация: для скрытия коллекций используйте Disable in Viewports (иконка дисплея) или Exclude from View Layer (чекбокс)."
 
-msgid "Exceptions"
-msgstr "Исключения"
-
-msgid "Collection of objects excluded from scene inspection"
-msgstr "Коллекция объектов, исключённых из проверки сцены"
-
-msgid "Can't select hidden or unselectable objects"
-msgstr "Невозможно выделить скрытые или невыделяемые объекты"
-
-msgid "Cyclic Dependency"
+msgid "Cyclic dependency"
 msgstr "Циклическая зависимость"
 
 msgid ""

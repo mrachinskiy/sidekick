@@ -22,10 +22,16 @@ def upd_problems_popover_width():
 
 
 def draw_3dview_header(self, context):
-    layout = self.layout
-    row = layout.row(align=True)
+    row = self.layout.row(align=True)
     row.prop(context.window_manager.sidekick, "show_problems", text="", icon="ERROR")
     row.popover(panel="VIEW3D_PT_sidekick_problems", text="")
+
+
+def draw_object_context_menu(self, context):
+    layout = self.layout
+    layout.operator_context = "INVOKE_DEFAULT"
+    layout.separator()
+    layout.operator("object.sidekick_ignore")
 
 
 class VIEW3D_PT_sidekick_problems(Panel):
@@ -43,36 +49,57 @@ class VIEW3D_PT_sidekick_problems(Panel):
             layout.label(text="Update")
             mod_update.sidebar_ui(layout)
 
-        row = layout.row()
-        row.use_property_split = True
-        row.use_property_decorate = False
-        row.prop(context.scene.sidekick, "exceptions")
-
         layout.label(text="Problems")
 
-        if not var.Report.problems:
+        if var.Report.problems:
+            col = layout.column()
+
+            for problem in var.Report.problems:
+                row = col.row()
+
+                row1 = row.row()
+                row1.alignment = "LEFT"
+                row1.operator(
+                    "wm.sidekick_show_description",
+                    text=problem.title,
+                    icon="CANCEL" if problem.type is problemlib.TYPE_ERROR else "ERROR",
+                    emboss=False,
+                ).code = problem.code
+
+                if problem.select:
+                    row2 = row.row()
+                    row2.alignment = "RIGHT"
+                    row2.operator("object.sidekick_select", text="", icon="RESTRICT_SELECT_OFF", emboss=False).code = problem.code
+        else:
             box = layout.box()
             box.label(text="No problems found")
-            return
 
-        col = layout.column()
+        if var.Report.problems_ignored:
+            layout.separator()
 
-        for problem in var.Report.problems:
-            row = col.row()
+            layout.label(text="Ignored")
 
-            row1 = row.row()
-            row1.alignment = "LEFT"
-            row1.operator(
-                "wm.sidekick_show_description",
-                text=problem.title,
-                icon="CANCEL" if problem.type is problemlib.TYPE_ERROR else "ERROR",
-                emboss=False,
-            ).code = problem.code
+            col = layout.column()
+            col.active = False
 
-            if problem.selection:
-                row2 = row.row()
-                row2.alignment = "RIGHT"
-                row2.operator("object.sidekick_select", text="", icon="RESTRICT_SELECT_OFF", emboss=False).code = problem.code
+            for problem in var.Report.problems_ignored:
+                row = col.row()
+
+                row1 = row.row()
+                row1.alignment = "LEFT"
+                row1.operator(
+                    "wm.sidekick_show_description",
+                    text=problem.title,
+                    icon="CANCEL" if problem.type is problemlib.TYPE_ERROR else "ERROR",
+                    emboss=False,
+                ).code = problem.code
+
+                if problem.select:
+                    row2 = row.row()
+                    row2.alignment = "RIGHT"
+                    op = row2.operator("object.sidekick_select", text="", icon="RESTRICT_SELECT_OFF", emboss=False)
+                    op.code = problem.code
+                    op.use_ignored = True
 
 
 # Preferences
@@ -99,21 +126,17 @@ def prefs_ui(self, context):
         box.prop(self, "overlay_style")
 
     if active_tab == "PROBLEMS":
-        col = box.column(heading="Object")
-        col.prop(self, "problem_ob_scale")
-        col.prop(self, "problem_ob_empty")
+        for code in problemlib.coll.keys():
+            if code == 101:
+                col = box.column(heading="Object")
+            elif code == 201:
+                col = box.column(heading="Relations")
+            elif code == 301:
+                col = box.column(heading="Object Data")
+            elif code == 401:
+                col = box.column(heading="Scene")
 
-        col = box.column(heading="Curve")
-        col.prop(self, "problem_curve_order")
-        col.prop(self, "problem_curve_resolution")
-        col.prop(self, "problem_curve_radius")
-
-        col = box.column(heading="Modifiers")
-        col.prop(self, "problem_mod_order")
-        col.prop(self, "problem_cyclic_dep")
-
-        col = box.column(heading="Scene")
-        col.prop(self, "problem_collection_name")
+            col.prop(self, f"problem_{code}")
 
     elif active_tab == "UPDATES":
         mod_update.prefs_ui(self, box)

@@ -7,15 +7,22 @@ from typing import NamedTuple
 TYPE_ERROR = 1
 TYPE_WARN = 2
 
-ID_OB_SCALE = 1
-ID_OB_EMPTY = 2
-ID_MOD_ORDER = 3
-ID_CURVE_RADIUS = 4
-ID_CURVE_ORDER = 5
-ID_CURVE_RESOLUTION = 6
-ID_COLLECTION_NAME = 7
-ID_COLLECTION_VISIBILITY = 8
-ID_CYCLIC_DEP = 9
+# Object
+ID_OB_SCALE = 101
+ID_OB_EMPTY = 102
+
+# Relations
+ID_MOD_ORDER = 201
+ID_CYCLIC_DEP = 202
+
+# Object Data
+ID_CURVE_RADIUS = 301
+ID_CURVE_ORDER = 302
+ID_CURVE_RESOLUTION = 303
+
+# Scene
+ID_COLLECTION_NAME = 401
+ID_COLLECTION_VISIBILITY = 402
 
 
 class Problem(NamedTuple):
@@ -23,13 +30,13 @@ class Problem(NamedTuple):
     type: int
     title: str
     desc: str
-    selection: bool = True
+    select: bool = True
 
 
 ObjectScale = Problem(
     ID_OB_SCALE,
     TYPE_ERROR,
-    "Scaled objects",
+    "Scaled object",
     (
         "Object scaling could lead to unexpected results when using certain tools and modifiers."
         "\n\nRecommendation: if you did not set object scale on purpose use Object > Apply > Scale."
@@ -58,6 +65,16 @@ ModOrder = Problem(
         "\n* Curve"
         "\n\nRecommendation: place Subdivision modifier before deform modifiers, "
         "unless you did it on purpose to achieve specific result."
+    ),
+)
+
+CyclicDep = Problem(
+    ID_CYCLIC_DEP,
+    TYPE_ERROR,
+    "Cyclic dependency",
+    (
+        "Using the same object as a target for Shrinkwrap and Boolean modifiers creates cyclic dependency."
+        "\n\nRecommendation: use a duplicate object without Boolean modifier as a target in Shrinkwrap modifier."
     ),
 )
 
@@ -116,25 +133,15 @@ CollectionVisibility = Problem(
     False,
 )
 
-CyclicDep = Problem(
-    ID_CYCLIC_DEP,
-    TYPE_ERROR,
-    "Cyclic Dependency",
-    (
-        "Using the same object as a target for Shrinkwrap and Boolean modifiers creates cyclic dependency."
-        "\n\nRecommendation: use a duplicate object without Boolean modifier as a target in Shrinkwrap modifier."
-    ),
-)
-
 
 coll = {
     ObjectScale.code: ObjectScale,
     ObjectEmpty.code: ObjectEmpty,
     ModOrder.code: ModOrder,
+    CyclicDep.code: CyclicDep,
     CurveRadius.code: CurveRadius,
     CurveOrder.code: CurveOrder,
     CurveResolution.code: CurveResolution,
     CollectionName.code: CollectionName,
     CollectionVisibility.code: CollectionVisibility,
-    CyclicDep.code: CyclicDep,
 }

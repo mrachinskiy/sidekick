@@ -6,7 +6,7 @@ from pathlib import Path
 from . import report
 
 
-Report = report.Data()
+Report = report.Scan()
 
 
 # Paths

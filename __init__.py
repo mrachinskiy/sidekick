@@ -41,6 +41,7 @@ classes = (
     ui.VIEW3D_PT_sidekick_problems,
     operators.OBJECT_OT_select,
     operators.WM_OT_show_description,
+    operators.OBJECT_OT_ignore,
     operators.SCENE_OT_test,
     *mod_update.ops,
 )
@@ -52,6 +53,11 @@ def register():
 
     bpy.types.WindowManager.sidekick = PointerProperty(type=preferences.WmProperties)
     bpy.types.Scene.sidekick = PointerProperty(type=preferences.SceneProperties)
+
+    # Menu
+    # ---------------------------
+
+    bpy.types.VIEW3D_MT_object_context_menu.append(ui.draw_object_context_menu)
 
     # Overlays option
     # ---------------------------
@@ -83,6 +89,11 @@ def unregister():
 
     del bpy.types.WindowManager.sidekick
     del bpy.types.Scene.sidekick
+
+    # Menu
+    # ---------------------------
+
+    bpy.types.VIEW3D_MT_object_context_menu.remove(ui.draw_object_context_menu)
 
     # Overlays option
     # ---------------------------

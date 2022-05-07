@@ -4,7 +4,7 @@
 from bpy.types import PropertyGroup, AddonPreferences, Collection
 from bpy.props import BoolProperty, EnumProperty, PointerProperty
 
-from . import var, ui, mod_update
+from . import var, ui, mod_update, problemlib
 
 
 def upd_report(self, context):
@@ -18,11 +18,18 @@ def upd_report(self, context):
 # -----------------------------------
 
 
-class Preferences(mod_update.Preferences, AddonPreferences):
-    bl_idname = __package__
+def _cls_Problems():
+    x = "class Problems:"
+    for code, problem in problemlib.coll.items():
+        x += f'\n    problem_{code}: BoolProperty(name="{problem.title}", description="{code}", default=True)'
+    return x
 
-    # Interface
-    # ---------------------------------
+
+exec(_cls_Problems())
+
+
+class Preferences(Problems, mod_update.Preferences, AddonPreferences):
+    bl_idname = __package__
 
     overlay_style: EnumProperty(
         name="Overlay Style",
@@ -30,46 +37,6 @@ class Preferences(mod_update.Preferences, AddonPreferences):
             ("DETAILED", "Detailed", "Show full list of problems"),
             ("COMPACT", "Compact", "Show only number of problems"),
         ),
-    )
-
-    # Problems
-    # ---------------------------------
-
-    problem_ob_scale: BoolProperty(
-        name="Non-uniform Scale",
-        default=True,
-    )
-    problem_ob_empty: BoolProperty(
-        name="Empty Object",
-        default=True,
-    )
-    problem_curve_order: BoolProperty(
-        name="Low Order",
-        default=True,
-    )
-    problem_curve_resolution: BoolProperty(
-        name="Low Resolution",
-        default=True,
-    )
-    problem_curve_radius: BoolProperty(
-        name="Radius Deformation",
-        default=True,
-    )
-    problem_mod_order: BoolProperty(
-        name="Wrong Order",
-        default=True,
-    )
-    problem_cyclic_dep: BoolProperty(
-        name="Cyclic Dependency",
-        default=True,
-    )
-    problem_collection_name: BoolProperty(
-        name="Collection Name",
-        default=True,
-    )
-    problem_collection_visibility: BoolProperty(
-        name="Collection Visibility",
-        default=True,
     )
 
     def draw(self, context):
