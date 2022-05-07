@@ -2,7 +2,7 @@
 # Copyright 2020-2022 Mikhail Rachinskiy
 
 import bpy
-from bpy.types import Operator
+from bpy.types import Operator, Collection, Object
 from bpy.props import IntProperty, BoolProperty
 from bpy.app.translations import pgettext_tip as _
 
@@ -151,59 +151,89 @@ class SCENE_OT_test(Operator):
     bl_options = {"REGISTER", "UNDO"}
 
     def execute(self, context):
-        coll = bpy.data.collections.new("Collection All Problems")
+        coll = bpy.data.collections.new("Sidekick")
         context.scene.collection.children.link(coll)
-        lcoll = context.view_layer.layer_collection.children[-1]
-        context.view_layer.active_layer_collection = lcoll
+        view_layer = context.view_layer
+        view_layer.active_layer_collection = view_layer.layer_collection.children[-1]
 
-        subcoll = bpy.data.collections.new("Hidden Problem")
-        coll.children.link(subcoll)
-        lcoll.children[0].hide_viewport = True
-
-        bpy.ops.mesh.primitive_cone_add()
-        ob_gem = context.object
-        ob_gem.name = "Gem"
-        ob_gem["gem"] = {
-            "cut": "NONE",
-            "stone": "NONE",
-        }
-        coll.objects.unlink(ob_gem)
-        subcoll.objects.link(ob_gem)
-
-        bpy.ops.curve.primitive_nurbs_path_add()
-        ob_curve = context.object
-        spline = ob_curve.data.splines[0]
-        spline.order_u = 3
-        for p in spline.points:
-            p.radius = 1.5
-
-        bpy.ops.mesh.primitive_cube_add()
-        ob_mesh = context.object
-        ob_mesh.scale.x = 1.5
-        ob_mesh.modifiers.new("Curve", "CURVE").object = ob_curve
-        ob_mesh.modifiers.new("Subd", "SUBSURF")
-
-        bpy.ops.mesh.primitive_plane_add()
-        ob_mesh_empty = context.object
-        ob_mesh_empty.name = "Empty Mesh"
-        ob_mesh_empty.data.clear_geometry()
-
-        # Cyclic dependency
-        bpy.ops.mesh.primitive_plane_add(size=1.0, location=(0.0, 0.0, 1.5))
-        ob_a = context.object
-        ob_a.name = "Cyclic Dependency Project"
-
-        bpy.ops.mesh.primitive_cube_add()
-        ob_b = context.object
-        ob_b.name = "Cyclic Dependency Boolean"
-
-        ob_a.modifiers.new("Project", "SHRINKWRAP").target = ob_b
-        ob_a.modifiers.new("Thick", "SOLIDIFY").offset = 0.0
-
-        ob_b.modifiers.new("Bool", "BOOLEAN").object = ob_a
+        for code in problemlib.coll.keys():
+            getattr(self, f"_test_{code}")()
 
         return {"FINISHED"}
 
     def invoke(self, context, event):
         wm = context.window_manager
         return wm.invoke_confirm(self, event)
+
+    @staticmethod
+    def _add_move_to_collection(name: str, obs: list[Object]) -> Collection:
+        coll = bpy.data.collections.new(name)
+        bpy.context.collection.children.link(coll)
+        for ob in obs:
+            bpy.context.collection.objects.unlink(ob)
+            coll.objects.link(ob)
+        return coll
+
+    @staticmethod
+    def _add_curve(name: str, radius=1.0, order=5, resolution=64) -> Object:
+        bpy.ops.curve.primitive_nurbs_path_add()
+        ob = bpy.context.object
+        ob.name = name
+        ob.data.resolution_u = resolution
+        spline = ob.data.splines[0]
+        spline.order_u = order
+        for p in spline.points:
+            p.radius = radius
+        return ob
+
+    @staticmethod
+    def _add_mesh(name: str, location=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0)) -> Object:
+        bpy.ops.mesh.primitive_cube_add(location=location)
+        ob = bpy.context.object
+        ob.name = name
+        ob.scale=scale
+        return ob
+
+    def _test_101(self) -> None:
+        self._add_mesh("Object Scale", scale=(1.5, 1.0, 1.0))
+
+    def _test_102(self) -> None:
+        ob = self._add_mesh("Empty Mesh")
+        ob.data.clear_geometry()
+
+    def _test_201(self) -> None:
+        ob = self._add_mesh("Wrong Mod Order")
+        ob.modifiers.new("Curve", "CURVE")
+        ob.modifiers.new("Subd", "SUBSURF")
+
+    def _test_202(self) -> None:
+        a = self._add_mesh("AB", location=(0.0, 0.0, 1.0), scale=(0.5, 0.5, 0.5))
+        b = self._add_mesh("BA")
+        a.modifiers.new("Project", "SHRINKWRAP").target = b
+        b.modifiers.new("Bool", "BOOLEAN").object = a
+        self._add_move_to_collection("Cyclic Dependency", (a, b))
+
+    def _test_301(self) -> None:
+        curve = self._add_curve("Radius", radius=1.5)
+        mesh = self._add_mesh("Radius Deform")
+        mesh.modifiers.new("Curve", "CURVE").object = curve
+        self._add_move_to_collection("Curve Radius", (curve, mesh))
+
+    def _test_302(self) -> None:
+        self._add_curve("Low Order", order=3)
+
+    def _test_303(self) -> None:
+        curve = self._add_curve("Low Resolution", resolution=12)
+        mesh = self._add_mesh("Resolution Deform")
+        mesh.modifiers.new("Curve", "CURVE").object = curve
+        self._add_move_to_collection("Curve Resolution", (curve, mesh))
+
+    @staticmethod
+    def _test_401() -> None:
+        bpy.context.collection.name = "Collection All Problems"
+
+    def _test_402(self) -> None:
+        ob = self._add_mesh("Fake Gem")
+        ob["gem"] = {"cut": "NONE", "stone": "NONE"}
+        self._add_move_to_collection("Visibility", (ob,))
+        bpy.context.view_layer.active_layer_collection.children[-1].hide_viewport = True
