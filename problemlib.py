@@ -22,7 +22,6 @@ ID_CURVE_RESOLUTION = 303
 
 # Scene
 ID_COLLECTION_NAME = 401
-ID_COLLECTION_VISIBILITY = 402
 
 
 class Problem(NamedTuple):
@@ -120,19 +119,6 @@ CollectionName = Problem(
     False,
 )
 
-CollectionVisibility = Problem(
-    ID_COLLECTION_VISIBILITY,
-    TYPE_ERROR,
-    "Collection visibility",
-    (
-        "Gems from hidden collections will appear in Design Report and Gem Map, "
-        "this happens when collection is hidden with Hide in Viewport (eye icon)."
-        "\n\nRecommendation: instead use Disable in Viewports (display icon) "
-        "or Exclude from View Layer (checkbox)."
-    ),
-    False,
-)
-
 
 coll = {
     ObjectScale.code: ObjectScale,
@@ -143,5 +129,4 @@ coll = {
     CurveOrder.code: CurveOrder,
     CurveResolution.code: CurveResolution,
     CollectionName.code: CollectionName,
-    CollectionVisibility.code: CollectionVisibility,
 }

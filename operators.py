@@ -82,7 +82,7 @@ def _cls_Problems():
     for code, problem in problemlib.coll.items():
         if not problem.select:
             continue
-        x += f'\n    problem_{code}: BoolProperty(name="{problem.title}", description="{code}", options={{"SKIP_SAVE", "HIDDEN"}})'
+        x += f'\n problem_{code}: BoolProperty(name="{problem.title}", description="{code}", options={{"SKIP_SAVE", "HIDDEN"}})'
     return x
 
 

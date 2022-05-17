@@ -21,7 +21,7 @@ def upd_report(self, context):
 def _cls_Problems():
     x = "class Problems:"
     for code, problem in problemlib.coll.items():
-        x += f'\n    problem_{code}: BoolProperty(name="{problem.title}", description="{code}", default=True)'
+        x += f'\n problem_{code}: BoolProperty(name="{problem.title}", description="{code}", default=True)'
     return x
 
 

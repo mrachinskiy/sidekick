@@ -56,7 +56,6 @@ class Scan:
 
         for coll in _collection_walk(bpy.context.view_layer.layer_collection):
             Check.do(problemlib.ID_COLLECTION_NAME, coll)
-            Check.do(problemlib.ID_COLLECTION_VISIBILITY, coll)
 
         detected_problems |= Check.found
 
@@ -230,11 +229,3 @@ class _Detect:
     @staticmethod
     def _401(coll: LayerCollection) -> bool:
         return coll.name.startswith("Collection")
-
-    @staticmethod
-    def _402(coll: LayerCollection) -> bool:
-        if coll.hide_viewport:
-            for ob in coll.collection.all_objects:
-                if "gem" in ob:
-                    return True
-        return False
