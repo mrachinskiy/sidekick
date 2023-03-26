@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright 2020-2022 Mikhail Rachinskiy
 
-from typing import Iterator, Any
+from collections.abc import Iterator
+from typing import Any
 
 import bpy
-from bpy.types import Curve, Object, ObjectModifiers, LayerCollection
+from bpy.types import Curve, LayerCollection, Object, ObjectModifiers
 from mathutils import Vector
 
 from . import problemlib
