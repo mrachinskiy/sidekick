@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Copyright 2020-2022 Mikhail Rachinskiy
+# Copyright 2020-2023 Mikhail Rachinskiy
 
 import itertools
 from collections.abc import Iterable, Iterator
