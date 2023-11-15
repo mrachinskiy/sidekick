@@ -10,8 +10,8 @@ Features:
 How to install
 ==========================
 
-1. Download [Sidekick 1.1.1][download_latest]<sup>1</sup>
-2. Make sure you have Blender 2.93 or newer.
+1. Download [Sidekick 1.1.2][download_latest]<sup>1</sup>
+2. Make sure you have Blender 3.4 or newer.
 3. Open `Preferences` → `Add-ons` category.
 4. Use `Install` to install add-on from downloaded zip archive.<sup>2</sup>
 
@@ -23,8 +23,8 @@ How to install
 Установка
 ==========================
 
-1. Загрузите [Sidekick 1.1.1][download_latest]<sup>1</sup>
-2. Убедитесь, что у вас установлен Blender 2.93 или новее.
+1. Загрузите [Sidekick 1.1.2][download_latest]<sup>1</sup>
+2. Убедитесь, что у вас установлен Blender 3.4 или новее.
 3. Откройте `Preferences` → `Add-ons`.
 4. Воспользуйтесь `Install` чтобы установить аддон из загруженного архива.<sup>2</sup>
 
@@ -43,5 +43,5 @@ Contributing
 * [Open new bug report][report_bug], be sure to include Blender and add-on versions, and screenshot showing the error message.
 
 
-[download_latest]: https://github.com/mrachinskiy/sidekick/releases/download/v1.1.1-blender2.93.0/sidekick-1_1_1.zip
+[download_latest]: https://github.com/mrachinskiy/sidekick/releases/download/v1.1.2-blender3.4.0/sidekick-1_1_2.zip
 [report_bug]: https://github.com/mrachinskiy/sidekick/issues/new
