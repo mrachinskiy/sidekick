@@ -75,9 +75,10 @@ def _draw():
     prefs = context.preferences
     ui_scale = prefs.view.ui_scale
     style_detailed = prefs.addons[__package__].preferences.overlay_style == "DETAILED"
+    fontscale = prefs.ui_styles[0].widget_label.points * ui_scale / 11  # 11 is the default font size
 
     fontid = 0
-    fontsize = round(prefs.ui_styles[0].widget_label.points * ui_scale * 1.6)
+    fontsize = round(fontscale * 17)
     blf.size(fontid, fontsize)
     _, font_h = blf.dimensions(fontid, "Font Height")
     row_height = round(font_h * 1.7)
@@ -96,8 +97,8 @@ def _draw():
 
     # Starting position
 
-    x = 20 + icon_size
-    y = 5
+    x = round(12 * ui_scale) + icon_size
+    y = round(5 * ui_scale)
 
     for region in context.area.regions:
         if region.type in {"HEADER", "TOOL_HEADER"}:
@@ -105,19 +106,26 @@ def _draw():
         elif region.type == "TOOLS":
             x += region.width
 
+    # Viewport text offset
+    # -------------------------------------
+
+    _y = 0
+
     if overlay.show_text:
         view = prefs.view
         if view.show_object_info:
-            y += 25
-        if view.show_view_name:
-            y += 25
-        elif view.show_playback_fps and context.screen.is_animation_playing:
-            y += 25
+            _y += 25
+        if view.show_view_name or (view.show_playback_fps and context.screen.is_animation_playing):
+            _y += 25
 
     if overlay.show_stats:
-        y += 130
+        _y += 130
 
-    y = context.region.height - round(y * ui_scale)
+    y += round(_y * fontscale)
+
+    # -------------------------------------
+
+    y = context.region.height - y
     gpu.matrix.translate((x, y))
 
     if style_detailed:
