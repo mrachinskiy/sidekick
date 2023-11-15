@@ -76,12 +76,12 @@ def _draw():
     ui_scale = prefs.view.ui_scale
     style_detailed = prefs.addons[__package__].preferences.overlay_style == "DETAILED"
 
-    fontid = 2
-    fontsize = round(prefs.ui_styles[0].widget_label.points * ui_scale)
-    blf.size(fontid, fontsize, 104)
+    fontid = 0
+    fontsize = round(prefs.ui_styles[0].widget_label.points * ui_scale * 1.6)
+    blf.size(fontid, fontsize)
     _, font_h = blf.dimensions(fontid, "Font Height")
     row_height = round(font_h * 1.7)
-    icon_size = font_h / 2
+    icon_size = round(font_h / 2)
 
     shader = gpu.shader.from_builtin("POLYLINE_UNIFORM_COLOR")
     shader.uniform_float("viewportSize", (context.area.width, context.area.height))
@@ -96,11 +96,11 @@ def _draw():
 
     # Starting position
 
-    x = 20
+    x = 20 + icon_size
     y = 5
 
     for region in context.area.regions:
-        if region.type == "HEADER":
+        if region.type in {"HEADER", "TOOL_HEADER"}:
             y += region.height
         elif region.type == "TOOLS":
             x += region.width
