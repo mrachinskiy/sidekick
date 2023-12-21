@@ -22,6 +22,13 @@ def _is_curve_bevel(curve: Curve) -> bool:
     return curve.bevel_depth or curve.extrude or curve.bevel_object is not None
 
 
+def _is_mod_solidify(modifiers: ObjectModifiers) -> bool:
+    for mod in modifiers:
+        if mod.type == "SOLIDIFY":
+            return True
+    return False
+
+
 def _is_gem_related(ob: Object) -> bool:
     return "gem" in ob or (ob.parent is not None and "gem" in ob.parent)
 
@@ -80,7 +87,7 @@ class Scan:
             if not Check.do(problemlib.ID_OB_EMPTY, ob):
 
                 if ob.type in {"CURVE", "FONT"}:
-                    if _is_curve_bevel(ob.data):
+                    if _is_curve_bevel(ob.data) or (ob.modifiers and _is_mod_solidify(ob.modifiers)):
                         Check.do(problemlib.ID_OB_SCALE, ob.scale)
                     if ob in deformer_curves:
                         Check.do(problemlib.ID_CURVE_RADIUS, ob.data)
