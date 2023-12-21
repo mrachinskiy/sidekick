@@ -4,7 +4,7 @@
 bl_info = {
     "name": "Sidekick",
     "author": "Mikhail Rachinskiy",
-    "version": (1, 1, 2),
+    "version": (1, 1, 3),
     "blender": (3, 4, 0),
     "location": "3D View > Header > Problems",
     "description": "Detect common modeling mistakes in the scene.",
