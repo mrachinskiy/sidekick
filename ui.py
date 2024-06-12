@@ -1,10 +1,10 @@
+# SPDX-FileCopyrightText: 2020-2024 Mikhail Rachinskiy
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Copyright 2020-2023 Mikhail Rachinskiy
 
 import bpy
 from bpy.types import Panel
 
-from . import var, mod_update, problemlib
+from . import mod_update, problemlib, var
 
 
 def upd_problems_popover_width():

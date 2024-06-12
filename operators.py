@@ -1,12 +1,12 @@
+# SPDX-FileCopyrightText: 2020-2024 Mikhail Rachinskiy
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Copyright 2020-2023 Mikhail Rachinskiy
 
 import bpy
-from bpy.types import Operator, Collection, Object
-from bpy.props import IntProperty, BoolProperty
 from bpy.app.translations import pgettext_tip as _
+from bpy.props import BoolProperty, IntProperty
+from bpy.types import Collection, Object, Operator
 
-from . import var, problemlib
+from . import problemlib, var
 
 
 class OBJECT_OT_select(Operator):

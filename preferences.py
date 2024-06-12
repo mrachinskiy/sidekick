@@ -1,10 +1,10 @@
+# SPDX-FileCopyrightText: 2020-2024 Mikhail Rachinskiy
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Copyright 2020-2023 Mikhail Rachinskiy
 
-from bpy.types import PropertyGroup, AddonPreferences, Collection
 from bpy.props import BoolProperty, EnumProperty, PointerProperty
+from bpy.types import AddonPreferences, Collection, PropertyGroup
 
-from . import var, ui, mod_update, problemlib
+from . import mod_update, problemlib, ui, var
 
 
 def upd_report(self, context):

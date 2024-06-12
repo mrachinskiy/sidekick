@@ -1,37 +1,18 @@
+# SPDX-FileCopyrightText: 2020-2024 Mikhail Rachinskiy
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Copyright 2020-2023 Mikhail Rachinskiy
-
-bl_info = {
-    "name": "Sidekick",
-    "author": "Mikhail Rachinskiy",
-    "version": (1, 1, 3),
-    "blender": (3, 4, 0),
-    "location": "3D View > Header > Problems",
-    "description": "Detect common modeling mistakes in the scene.",
-    "doc_url": "https://github.com/mrachinskiy/sidekick#readme",
-    "tracker_url": "https://github.com/mrachinskiy/sidekick/issues",
-    "category": "3D View",
-}
 
 
 if "bpy" in locals():
     _essential.reload_recursive(var.ADDON_DIR, locals())
 else:
+    from . import _essential, var
+
+    _essential.check(var.ADDON_DIR / "mod_update", var.MANIFEST["blender_version_min"])
+
     import bpy
     from bpy.props import PointerProperty
 
-    from . import _essential, var
-
-    _essential.check(var.ADDON_DIR / "mod_update", bl_info["blender"])
-
-    from . import (
-        localization,
-        mod_update,
-        onscreen,
-        operators,
-        preferences,
-        ui,
-    )
+    from . import localization, mod_update, onscreen, operators, preferences, ui
 
 
 classes = (
@@ -72,10 +53,7 @@ def register():
     # mod_update
     # ---------------------------
 
-    mod_update.init(
-        addon_version=bl_info["version"],
-        repo_url="mrachinskiy/sidekick",
-    )
+    mod_update.init(repo_url="mrachinskiy/sidekick")
 
     # Translations
     # ---------------------------

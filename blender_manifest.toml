@@ -1,0 +1,12 @@
+schema_version = "1.0.0"
+id = "sidekick"
+version = "1.2.0"
+name = "Sidekick"
+tagline = "Detect common modeling mistakes"
+maintainer = "Mikhail Rachinskiy"
+type = "add-on"
+tags = ["Modeling"]
+blender_version_min = "4.2.0"
+website = "https://github.com/mrachinskiy/sidekick"
+license = ["SPDX:GPL-3.0-or-later"]
+copyright = ["2020-2024 Mikhail Rachinskiy"]
