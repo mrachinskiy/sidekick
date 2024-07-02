@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import bpy
-from bpy.types import Panel
+from bpy.types import Panel, PropertyGroup, UILayout
 
 from . import problemlib, var
 
@@ -102,7 +102,7 @@ class VIEW3D_PT_sidekick_problems(Panel):
 # ---------------------------
 
 
-def _prop_panel(layout, data, prop) -> bool:
+def _prop_panel(layout: UILayout, data: PropertyGroup, prop: str) -> bool:
     enabled = getattr(data, prop)
 
     sub = layout.row()
