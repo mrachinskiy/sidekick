@@ -13,7 +13,7 @@ from bpy.app.translations import pgettext_iface as _t
 from gpu.types import GPUShader
 from gpu_extras.batch import batch_for_shader
 
-from . import mod_update, problemlib, ui, var
+from . import problemlib, ui, var
 
 
 _handler = None
@@ -91,7 +91,6 @@ def _draw():
     # Color
 
     color_text = prefs.themes[0].view_3d.space.text_hi
-    color_update = (0.0, 0.6, 1.0, 1.0)
     color_error = (1.0, 0.25, 0.25, 1.0)
     color_warn = (1.0, 0.8, 0.2, 1.0)
 
@@ -138,9 +137,6 @@ def _draw():
             elif problem_type is problemlib.TYPE_WARN:
                 color = color_warn
                 icon = _icon_warning
-            else:
-                color = color_update
-                icon = _icon_update
 
             gpu.matrix.translate((0.0, -row_height))
 
@@ -152,7 +148,6 @@ def _draw():
         gpu.matrix.translate((0.0, -row_height))
 
         for num, color, icon in (
-            (str(int(mod_update.state.update_available)), color_update, _icon_update),
             (str(var.Report.errors), color_error, _icon_error),
             (str(var.Report.warns), color_warn, _icon_warning),
         ):
@@ -171,33 +166,6 @@ def _draw():
 
 # Icons
 # -------------------------------------
-
-
-@lru_cache(maxsize=1)
-def _icon_update(radius: float) -> tuple[tuple[float, float], ...]:
-    radius *= 1.05
-    y = radius / 1.3
-    angle = tau / 12
-
-    circle = [
-        (
-            sin(i * angle) * radius,
-            cos(i * angle) * radius + y,
-        )
-        for i in range(10)
-    ]
-
-    radius *= 0.4
-    x, y = circle[-1]
-    x += radius * 0.1
-
-    arrow = (
-        (x - radius, y),
-        (x, y + radius * 1.7),
-        (x + radius, y),
-    )
-
-    return (*_co_pairs(circle), *_co_pairs(arrow))
 
 
 @lru_cache(maxsize=1)
@@ -272,8 +240,5 @@ def _co_pairs(x: Iterable) -> Iterator[tuple[float, float]]:
 
 
 def _fmt_detailed(seq: Iterable) -> Iterator[tuple[int | None, str]]:
-    if mod_update.state.update_available:
-        yield None, _t("Update {} is available").format(mod_update.state.update_version)
-
     for x in seq:
         yield x.type, _t(x.title)

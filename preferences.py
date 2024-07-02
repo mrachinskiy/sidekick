@@ -4,7 +4,7 @@
 from bpy.props import BoolProperty, EnumProperty, PointerProperty
 from bpy.types import AddonPreferences, Collection, PropertyGroup
 
-from . import mod_update, problemlib, ui, var
+from . import problemlib, ui, var
 
 
 def upd_report(self, context):
@@ -28,7 +28,7 @@ def _cls_Problems():
 exec(_cls_Problems())
 
 
-class Preferences(Problems, mod_update.Preferences, AddonPreferences):
+class Preferences(Problems, AddonPreferences):
     bl_idname = __package__
 
     overlay_style: EnumProperty(
@@ -48,13 +48,8 @@ class Preferences(Problems, mod_update.Preferences, AddonPreferences):
 
 
 class WmProperties(PropertyGroup):
-    prefs_active_tab: EnumProperty(
-        items=(
-            ("INTERFACE", "Interface", ""),
-            ("PROBLEMS", "Problems", ""),
-            ("UPDATES", "Updates", ""),
-        ),
-    )
+    prefs_show_interface: BoolProperty(name="Interface")
+    prefs_show_problems: BoolProperty(name="Problems")
     show_problems: BoolProperty(
         name="Problems",
         description="Show scene problems",

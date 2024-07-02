@@ -7,12 +7,12 @@ if "bpy" in locals():
 else:
     from . import _essential, var
 
-    _essential.check(var.ADDON_DIR / "mod_update", var.MANIFEST["blender_version_min"])
+    _essential.check(var.MANIFEST["blender_version_min"])
 
     import bpy
     from bpy.props import PointerProperty
 
-    from . import localization, mod_update, onscreen, operators, preferences, ui
+    from . import localization, onscreen, operators, preferences, ui
 
 
 classes = (
@@ -24,7 +24,6 @@ classes = (
     operators.WM_OT_show_description,
     operators.OBJECT_OT_ignore,
     operators.SCENE_OT_test,
-    *mod_update.ops,
 )
 
 
@@ -49,11 +48,6 @@ def register():
     # ---------------------------
 
     onscreen.handler_add()
-
-    # mod_update
-    # ---------------------------
-
-    mod_update.init(repo_url="mrachinskiy/sidekick")
 
     # Translations
     # ---------------------------

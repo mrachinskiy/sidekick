@@ -4,7 +4,7 @@
 import bpy
 from bpy.types import Panel
 
-from . import mod_update, problemlib, var
+from . import problemlib, var
 
 
 def upd_problems_popover_width():
@@ -44,10 +44,6 @@ class VIEW3D_PT_sidekick_problems(Panel):
 
     def draw(self, context):
         layout = self.layout
-
-        if mod_update.state.update_available:
-            layout.label(text="Update")
-            mod_update.sidebar_ui(layout)
 
         layout.label(text="Problems")
 
@@ -106,37 +102,38 @@ class VIEW3D_PT_sidekick_problems(Panel):
 # ---------------------------
 
 
+def _prop_panel(layout, data, prop) -> bool:
+    enabled = getattr(data, prop)
+
+    sub = layout.row()
+    sub.use_property_split = False
+    sub.alignment = "LEFT"
+    sub.prop(data, prop, icon="DOWNARROW_HLT" if enabled else "RIGHTARROW", emboss=False)
+
+    return enabled
+
+
 def prefs_ui(self, context):
     wm_props = context.window_manager.sidekick
-    active_tab = wm_props.prefs_active_tab
 
     layout = self.layout
     layout.use_property_split = True
     layout.use_property_decorate = False
 
-    split = layout.split(factor=0.25)
-    col = split.column()
-    col.use_property_split = False
-    col.scale_y = 1.3
-    col.prop(wm_props, "prefs_active_tab", expand=True)
+    main = layout.column()
 
-    box = split.box()
+    if _prop_panel(main, wm_props, "prefs_show_interface"):
+        main.prop(self, "overlay_style")
 
-    if active_tab == "INTERFACE":
-        box.prop(self, "overlay_style")
-
-    if active_tab == "PROBLEMS":
+    if _prop_panel(main, wm_props, "prefs_show_problems"):
         for code in problemlib.coll.keys():
             if code == 101:
-                col = box.column(heading="Object")
+                col = main.column(heading="Object")
             elif code == 201:
-                col = box.column(heading="Relations")
+                col = main.column(heading="Relations")
             elif code == 301:
-                col = box.column(heading="Object Data")
+                col = main.column(heading="Object Data")
             elif code == 401:
-                col = box.column(heading="Scene")
+                col = main.column(heading="Scene")
 
             col.prop(self, f"problem_{code}")
-
-    elif active_tab == "UPDATES":
-        mod_update.prefs_ui(self, box)
