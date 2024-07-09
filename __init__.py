@@ -3,12 +3,9 @@
 
 
 if "bpy" in locals():
+    from . import _essential, var
     _essential.reload_recursive(var.ADDON_DIR, locals())
 else:
-    from . import _essential, var
-
-    _essential.check(var.MANIFEST["blender_version_min"])
-
     import bpy
     from bpy.props import PointerProperty
 
