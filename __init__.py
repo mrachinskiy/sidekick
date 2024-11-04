@@ -3,25 +3,16 @@
 
 
 if "bpy" in locals():
-    from . import _essential, var
-    _essential.reload_recursive(var.ADDON_DIR, locals())
+    from . import var
+    essentials.reload_recursive(var.ADDON_DIR, locals())
 else:
     import bpy
     from bpy.props import PointerProperty
 
-    from . import localization, onscreen, operators, preferences, ui
+    from . import essentials, localization, onscreen, operators, preferences, ui
 
 
-classes = (
-    preferences.Preferences,
-    preferences.WmProperties,
-    preferences.SceneProperties,
-    ui.VIEW3D_PT_sidekick_problems,
-    operators.OBJECT_OT_select,
-    operators.WM_OT_show_description,
-    operators.OBJECT_OT_ignore,
-    operators.SCENE_OT_test,
-)
+classes = essentials.get_classes((preferences, operators, ui))
 
 
 def register():
