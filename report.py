@@ -185,13 +185,17 @@ class _Detect:
 
     @staticmethod
     def _201(modifiers: ObjectModifiers) -> bool:
-        dmod = False
-        dmods = {"CURVE", "LATTICE", "SHRINKWRAP", "SIMPLE_DEFORM"}
+        trigger = False
+        trigger_mods = {"CURVE", "LATTICE", "SHRINKWRAP", "SIMPLE_DEFORM", "BOOLEAN", "NODES"}
 
         for mod in modifiers:
-            if mod.type in dmods:
-                dmod = True
-            elif mod.type == "SUBSURF" and dmod:
+            if mod.type in trigger_mods:
+                if mod.type == "NODES":
+                    if mod.node_group and "booltron" in mod.node_group:
+                        trigger = True
+                else:
+                    trigger = True
+            elif mod.type == "SUBSURF" and trigger:
                 return True
 
         return False

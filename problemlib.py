@@ -57,12 +57,13 @@ ModOrder = Problem(
     TYPE_ERROR,
     "Modifier order is incorrect",
     (
-        "Generally Subdivision modifier should be placed before deform modifiers. Example:"
+        "Generally Subdivision modifier should be placed before boolean or deform modifiers. Example:"
         "\n* Mirror"
         "\n* Subdivision"
         "\n* Lattice"
         "\n* Curve"
-        "\n\nRecommendation: place Subdivision modifier before deform modifiers, "
+        "\n* Boolean"
+        "\n\nRecommendation: place Subdivision modifier before boolean and deform modifiers, "
         "unless you did it on purpose to achieve specific result."
     ),
 )
