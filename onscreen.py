@@ -65,6 +65,15 @@ def _draw_text(fontid: int, font_h: float, color: tuple[float], text: str):
     blf.draw(fontid, text)
 
 
+def _get_font_scale(prefs: bpy.types.Preferences) -> float:
+    if bpy.app.version < (4, 3, 0):
+        font_size = prefs.ui_styles[0].widget_label.points
+    else:
+        font_size = prefs.ui_styles[0].widget.points
+
+    return font_size * prefs.view.ui_scale / 11  # 11 is the default font size
+
+
 def _draw():
     context = bpy.context
     overlay = context.space_data.overlay
@@ -75,7 +84,7 @@ def _draw():
     prefs = context.preferences
     ui_scale = prefs.view.ui_scale
     style_detailed = prefs.addons[__package__].preferences.overlay_style == "DETAILED"
-    fontscale = prefs.ui_styles[0].widget_label.points * ui_scale / 11  # 11 is the default font size
+    fontscale = _get_font_scale(prefs)
 
     fontid = 0
     fontsize = round(fontscale * 17)
