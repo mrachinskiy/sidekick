@@ -57,6 +57,11 @@ class WmProperties(PropertyGroup):
         update=upd_report,
     )
 
+    def problems(self, rescan=False) -> list[problemlib.Problem]:
+        if rescan:
+            var.Report.get()
+        return var.Report.problems
+
 
 # Scene properties
 # ------------------------------------------
