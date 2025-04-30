@@ -6,89 +6,82 @@ import traceback
 
 import addon_utils
 import bpy
-from bpy.types import Collection, Object
+from bpy.types import Object
 
 
-def _add_move_to_collection(name: str, obs: list[Object]) -> Collection:
-    coll = bpy.data.collections.new(name)
-    bpy.context.collection.children.link(coll)
-    for ob in obs:
-        bpy.context.collection.objects.unlink(ob)
-        coll.objects.link(ob)
-    return coll
-
-
-def _add_curve(name: str, radius=1.0, order=5, resolution=64) -> Object:
+def _add_curve(radius=1.0, order=5, resolution=64) -> Object:
     bpy.ops.curve.primitive_nurbs_path_add()
     ob = bpy.context.object
-    ob.name = name
     ob.data.resolution_u = resolution
+
     spline = ob.data.splines[0]
     spline.order_u = order
+
     for p in spline.points:
         p.radius = radius
+
     return ob
 
 
-def _add_mesh(name: str, location=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0)) -> Object:
+def _add_mesh(location=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0)) -> Object:
     bpy.ops.mesh.primitive_cube_add(location=location)
     ob = bpy.context.object
-    ob.name = name
     ob.scale = scale
     return ob
 
 
 def test_101() -> None:
-    _add_mesh("Object Scale", scale=(1.5, 1.0, 1.0))
+    """Scaled object"""
+    _add_mesh(scale=(1.5, 1.0, 1.0))
 
 
 def test_102() -> None:
-    ob = _add_mesh("Empty Mesh")
+    """Empty object"""
+    ob = _add_mesh()
     ob.data.clear_geometry()
 
 
 def test_201() -> None:
-    ob = _add_mesh("Wrong Mod Order")
+    """Modifier order is incorrect"""
+    ob = _add_mesh()
     ob.modifiers.new("Curve", "CURVE")
     ob.modifiers.new("Subd", "SUBSURF")
 
 
 def test_202() -> None:
-    a = _add_mesh("AB", location=(0.0, 0.0, 1.0), scale=(0.5, 0.5, 0.5))
-    b = _add_mesh("BA")
+    """Cyclic dependency"""
+    a = _add_mesh(location=(0.0, 0.0, 1.0), scale=(0.5, 0.5, 0.5))
+    b = _add_mesh()
     a.modifiers.new("Project", "SHRINKWRAP").target = b
     b.modifiers.new("Bool", "BOOLEAN").object = a
-    _add_move_to_collection("Cyclic Dependency", (a, b))
 
 
 def test_301() -> None:
-    curve = _add_curve("Radius", radius=1.5)
-    mesh = _add_mesh("Radius Deform")
-    mesh.modifiers.new("Curve", "CURVE").object = curve
-    _add_move_to_collection("Curve Radius", (curve, mesh))
+    """Curve Radius deformation"""
+    curve = _add_curve(radius=1.5)
+    ob = _add_mesh()
+    ob.modifiers.new("Curve", "CURVE").object = curve
 
 
 def test_302() -> None:
-    _add_curve("Low Order", order=3)
+    """Curve low Order"""
+    _add_curve(order=3)
 
 
 def test_303() -> None:
-    curve = _add_curve("Low Resolution", resolution=12)
-    mesh = _add_mesh("Resolution Deform")
-    mesh.modifiers.new("Curve", "CURVE").object = curve
-    _add_move_to_collection("Curve Resolution", (curve, mesh))
+    """Curve low Resolution"""
+    curve = _add_curve(resolution=12)
+    ob = _add_mesh()
+    ob.modifiers.new("Curve", "CURVE").object = curve
 
 
 def test_401() -> None:
-    bpy.context.collection.name = "Collection All Problems"
+    """Collection uses default name"""
+    coll = bpy.data.collections.new("Collection")
+    bpy.context.scene.collection.children.link(coll)
 
 
 def main() -> None:
-    coll = bpy.data.collections.new("Sidekick")
-    bpy.context.scene.collection.children.link(coll)
-    view_layer = bpy.context.view_layer
-    view_layer.active_layer_collection = view_layer.layer_collection.children[-1]
-
     for name, func in globals().items():
         if name.startswith("test"):
             func()
