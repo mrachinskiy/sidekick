@@ -12,7 +12,7 @@ How to install
 
 ### For Blender 4.2 or newer
 
-### [Drag and Drop this link into Blender][download_latest]
+### [Drag and Drop this link into Blender][download_v1_2_2]
 
 <sub>Or download and drag zip file into Blender<sup>1</sup></sub>
 
@@ -20,7 +20,7 @@ How to install
 
 ### For Blender 4.1 or older
 
-1. Download [Sidekick 1.2.2][download_latest]<sup>1</sup>
+1. Download [Sidekick 1.2.2][download_v1_2_2]<sup>1</sup>
 2. Make sure you have Blender 3.4 or newer.
 3. Open `Preferences` → `Add-ons` category.
 4. Use `Install` to install add-on from downloaded zip archive.<sup>2</sup>
@@ -35,7 +35,7 @@ How to install
 
 ### Для Blender 4.2 или новее
 
-### [Перетащите эту ссылку в Blender][download_latest]
+### [Перетащите эту ссылку в Blender][download_v1_2_2]
 
 <sub>Или скачайте и перетащите zip-файл в Blender<sup>1</sup></sub>
 
@@ -43,7 +43,7 @@ How to install
 
 ### Для Blender 4.1 или старше
 
-1. Загрузите [Sidekick 1.2.2][download_latest]<sup>1</sup>
+1. Загрузите [Sidekick 1.2.2][download_v1_2_2]<sup>1</sup>
 2. Убедитесь, что у вас установлен Blender 3.4 или новее.
 3. Откройте `Preferences` → `Add-ons`
 4. Воспользуйтесь `Install` чтобы установить аддон из загруженного архива.<sup>2</sup>
@@ -60,8 +60,8 @@ Contributing
 
 * Ensure the bug can be reproduced in the latest add-on version.
 * If error occurs on add-on installation or activation you probably trying to install add-on repository instead of release, check [how to install](#how-to-install) guide for proper installation process.
-* [Open new bug report][report_bug], be sure to include Blender and add-on versions, and screenshot showing the error message.
+* [Open new bug report][issues_url], be sure to include Blender and add-on versions, and screenshot showing the error message.
 
 
-[download_latest]: https://github.com/mrachinskiy/sidekick/releases/latest/download/sidekick-1_2_2.zip?repository=https://mrachinskiy.github.io/api/v1/extensions.json&blender_version_min=4.2.0
-[report_bug]: https://github.com/mrachinskiy/sidekick/issues/new
+[download_v1_2_2]: https://github.com/mrachinskiy/sidekick/releases/latest/download/sidekick-1_2_2.zip?repository=https://mrachinskiy.github.io/api/v1/extensions.json&blender_version_min=4.2.0
+[issues_url]: https://github.com/mrachinskiy/sidekick/issues/new
